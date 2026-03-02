@@ -1,14 +1,12 @@
-import { ReactLenis } from 'lenis/react';
-import type { Metadata } from 'next';
-import { Anton, Roboto_Flex } from 'next/font/google';
-
 import CustomCursor from '@/components/CustomCursor';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import ParticleBackground from '@/components/ParticleBackground';
 import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
-import { GoogleAnalytics } from '@next/third-parties/google';
 import 'lenis/dist/lenis.css';
+import { ReactLenis } from 'lenis/react';
+import type { Metadata } from 'next';
+import { Anton, Roboto_Flex } from 'next/font/google';
 import Script from 'next/script';
 import Preloader from '../components/Preloader';
 import StickyEmail from './_components/StickyEmail';
@@ -40,7 +38,18 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <GoogleAnalytics gaId="G-MHLY1LNGY5" />
+            <Script
+                src={`https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX`}
+                strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  `}
+            </Script>
             <Script id="hotjar" strategy="afterInteractive">
                 {`(function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
