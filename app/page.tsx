@@ -15,14 +15,14 @@ export default function Home() {
                     bottomColor="#00F050"
                     intensity={1}
                     rotationSpeed={0.4}
-                    glowAmount={0.002}
+                    glowAmount={0.003}
                     pillarWidth={4}
                     pillarHeight={0.4}
                     noiseIntensity={0.5}
                     pillarRotation={25}
                     interactive={false}
                     mixBlendMode="screen"
-                    quality="low"
+                    quality="high"
                 />
             </div>
 
@@ -37,3 +37,4 @@ export default function Home() {
         </div>
     );
 }
+
