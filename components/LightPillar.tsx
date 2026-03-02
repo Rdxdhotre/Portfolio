@@ -1,4 +1,4 @@
-do this in full file 'use client';
+'use client';
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
