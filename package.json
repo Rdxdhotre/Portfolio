@@ -28,8 +28,6 @@
     "devDependencies": {
         "@svgr/cli": "^8.1.0",
         "@types/node": "^20",
-        "@types/react": "^19",
-        "@types/react-dom": "^19",
         "eslint": "^8",
         "eslint-config-next": "15.0.3",
         "postcss": "^8",
@@ -37,4 +35,3 @@
         "typescript": "^5"
     }
 }
-
