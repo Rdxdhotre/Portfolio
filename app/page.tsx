@@ -11,8 +11,10 @@ export default function Home() {
             {/* Background Layer */}
             <div className="fixed inset-0 -z-10 pointer-events-none">
                 <LightPillar
-                    topColor="#00F050"
-                    bottomColor="#00F050"
+                    {/* topColor="#00F050"
+                    bottomColor="#00F050" */}
+                    topColor="#00b0f0"
+                    bottomColor="#f0003b"
                     intensity={1}
                     rotationSpeed={0.3}
                     glowAmount={0.004}
