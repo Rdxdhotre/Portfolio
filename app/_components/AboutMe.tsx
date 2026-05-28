@@ -75,7 +75,7 @@ const AboutMe = () => {
                     <div className="md:col-span-7">
                         <div className="text-lg max-w-[500px] text-white leading-relaxed">
                             <p className="slide-up-and-fade">
-                                I’m a frontend developer specializing in modern
+                                I’m a MERN ( FULL STACK ) Developer specializing in modern
                                 React and Next.js ecosystems, building
                                 production-ready web applications that balance
                                 clean architecture with exceptional user
