@@ -17,7 +17,7 @@ const SectionTitle = ({ icon, title, className, classNames }: Props) => {
     return (
         <div
             className={cn(
-                'flex items-center gap-4 mb-10',
+                'flex items-center gap-4 mb-12',
                 className,
                 classNames?.container,
             )}
@@ -26,21 +26,23 @@ const SectionTitle = ({ icon, title, className, classNames }: Props) => {
                 icon
             ) : (
                 <SectionFlower
-                    width={25}
+                    width={22}
                     className={cn(
-                        'animate-spin duration-7000',
+                        'animate-spin-slow text-primary flex-shrink-0',
                         classNames?.icon,
                     )}
                 />
             )}
             <h2
                 className={cn(
-                    'text-xl uppercase leading-none',
+                    'text-xs uppercase tracking-[0.25em] text-muted-foreground leading-none',
                     classNames?.title,
                 )}
             >
                 {title}
             </h2>
+            {/* Right decorative line */}
+            <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
         </div>
     );
 };

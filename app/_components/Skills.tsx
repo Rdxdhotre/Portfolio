@@ -9,30 +9,38 @@ import React, { useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+const CATEGORY_COLORS: Record<string, string> = {
+    frontend: 'from-primary/20 to-primary/5 border-primary/20 hover:border-primary/40',
+    backend: 'from-secondary/20 to-secondary/5 border-secondary/20 hover:border-secondary/40',
+    database: 'from-emerald-500/20 to-emerald-500/5 border-emerald-500/20 hover:border-emerald-500/40',
+    tools: 'from-orange-400/20 to-orange-400/5 border-orange-400/20 hover:border-orange-400/40',
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+    frontend: 'Frontend',
+    backend: 'Backend',
+    database: 'Databases',
+    tools: 'DevOps & Tools',
+};
+
 const Skills = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(
         () => {
-            const slideUpEl =
-                containerRef.current?.querySelectorAll('.slide-up');
-
-            if (!slideUpEl?.length) return;
-
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: containerRef.current,
                     start: 'top 80%',
-                    end: 'bottom 80%',
+                    end: 'bottom 70%',
                     scrub: 0.5,
                 },
             });
-
-            tl.from('.slide-up', {
+            tl.from('.skill-category', {
                 opacity: 0,
-                y: 40,
+                y: 50,
                 ease: 'none',
-                stagger: 0.4,
+                stagger: 0.3,
             });
         },
         { scope: containerRef },
@@ -48,7 +56,6 @@ const Skills = () => {
                     scrub: 1,
                 },
             });
-
             tl.to(containerRef.current, {
                 y: -150,
                 opacity: 0,
@@ -58,81 +65,58 @@ const Skills = () => {
     );
 
     return (
-        <section id="my-stack" ref={containerRef}>
+        <section id="my-stack" ref={containerRef} className="pb-section">
             <div className="container text-white">
                 <SectionTitle title="My Stack" />
 
-                <div className="space-y-20">
-                    {Object.entries(MY_STACK).map(([key, value]) => (
-                        <div className="grid sm:grid-cols-12" key={key}>
-                            <div className="sm:col-span-5">
-                                <p className="slide-up text-5xl font-anton leading-none  text-white uppercase">
-                                    {key}
-                                </p>
-                            </div>
+                <div className="space-y-14">
+                    {Object.entries(MY_STACK).map(([key, value]) => {
+                        const colorClass =
+                            CATEGORY_COLORS[key] ??
+                            'from-white/10 to-white/5 border-white/10 hover:border-white/20';
+                        const label = CATEGORY_LABELS[key] ?? key;
 
-                            <div className="sm:col-span-7 flex gap-x-11 gap-y-9 flex-wrap">
-                                {value.map((item) => (
+                        return (
+                            <div
+                                className="skill-category"
+                                key={key}
+                            >
+                                {/* Category heading */}
+                                <div className="flex items-center gap-3 mb-6">
                                     <div
-                                        className="slide-up flex gap-3.5 items-center leading-none"
-                                        key={item.name}
-                                    >
-                                        <div>
+                                        className={`h-px flex-1 bg-gradient-to-r ${colorClass.split(' ')[0].replace('from-', 'from-')} to-transparent`}
+                                    />
+                                    <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground px-3">
+                                        {label}
+                                    </span>
+                                    <div
+                                        className={`h-px flex-1 bg-gradient-to-l ${colorClass.split(' ')[0]} to-transparent`}
+                                    />
+                                </div>
+
+                                {/* Skill pills */}
+                                <div className="flex gap-3 flex-wrap">
+                                    {value.map((item) => (
+                                        <div
+                                            key={item.name}
+                                            className={`group flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-br ${colorClass} border backdrop-blur-sm transition-all duration-300 hover:scale-[1.04] hover:shadow-glow-sm`}
+                                        >
                                             <Image
                                                 src={item.icon}
                                                 alt={item.name}
-                                                width="40"
-                                                height="40"
-                                                className="max-h-10"
+                                                width={28}
+                                                height={28}
+                                                className="max-h-7 w-auto object-contain group-hover:scale-110 transition-transform duration-300"
                                             />
+                                            <span className="text-base font-medium text-foreground/90 whitespace-nowrap">
+                                                {item.name}
+                                            </span>
                                         </div>
-                                        <span className="text-2xl capitalize text-white">
-                                            {item.name}
-                                        </span>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-
-    return (
-        <section id="my-stack" ref={containerRef}>
-            <div className="container">
-                <SectionTitle title="My Stack" />
-
-                <div className="space-y-20">
-                    {Object.entries(MY_STACK).map(([key, value]) => (
-                        <div className="grid sm:grid-cols-12" key={key}>
-                            <div className="sm:col-span-5">
-                                <p className="slide-up text-5xl font-anton leading-none  text-white uppercase">
-                                    {key}
-                                </p>
-                            </div>
-                            <div className="sm:col-span-7 flex gap-x-11 gap-y-9 flex-wrap">
-                                {value.map((item) => (
-                                    <div
-                                        className="slide-up flex gap-3.5 items-center leading-none"
-                                        key={item.name}
-                                    >
-                                        <Image
-                                            src={item.icon}
-                                            alt={item.name}
-                                            width="40"
-                                            height="40"
-                                            className="h-10"
-                                        />
-                                        <span className="text-2xl capitalize">
-                                            {item.name}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

@@ -7,66 +7,123 @@ gsap.registerPlugin(useGSAP);
 
 const Preloader = () => {
     const preloaderRef = useRef<HTMLDivElement>(null);
+    const counterRef = useRef<HTMLSpanElement>(null);
 
     useGSAP(
         () => {
             const tl = gsap.timeline({
-                defaults: {
-                    ease: 'power1.inOut',
-                },
+                defaults: { ease: 'power3.inOut' },
             });
 
-            tl.to('.name-text span', {
-                y: 0,
-                stagger: 0.05,
-                duration: 0.2,
-            });
-
-            tl.to('.preloader-item', {
-                delay: 1,
-                y: '100%',
-                duration: 0.5,
-                stagger: 0.1,
-            })
-                .to('.name-text span', { autoAlpha: 0 }, '<0.5')
-                .to(
-                    preloaderRef.current,
-                    {
-                        autoAlpha: 0,
+            // Animate counter 0 → 100
+            const counterObj = { val: 0 };
+            tl.to(
+                counterObj,
+                {
+                    val: 100,
+                    duration: 1.8,
+                    ease: 'power2.out',
+                    onUpdate: () => {
+                        if (counterRef.current) {
+                            counterRef.current.textContent = Math.floor(counterObj.val)
+                                .toString()
+                                .padStart(2, '0');
+                        }
                     },
-                    '<1',
-                );
+                },
+                0,
+            );
+
+            // Name letters slide up
+            tl.to(
+                '.preloader-letter',
+                {
+                    y: 0,
+                    stagger: 0.04,
+                    duration: 0.5,
+                    ease: 'power3.out',
+                },
+                0,
+            );
+
+            // Hold for moment then exit — liquid wipe upward
+            tl.to('.preloader-letter', { autoAlpha: 0, duration: 0.25 }, '+=0.3');
+            tl.to('.preloader-counter', { autoAlpha: 0, duration: 0.25 }, '<');
+
+            // Bars wipe upward with stagger
+            tl.to(
+                '.preloader-bar',
+                {
+                    y: '-101%',
+                    duration: 0.7,
+                    stagger: 0.06,
+                    ease: 'power4.inOut',
+                },
+                '-=0.1',
+            );
+
+            // Fade whole preloader
+            tl.to(
+                preloaderRef.current,
+                {
+                    autoAlpha: 0,
+                    duration: 0.2,
+                },
+                '-=0.15',
+            );
+
+            tl.set(preloaderRef.current, { display: 'none' });
         },
         { scope: preloaderRef },
     );
 
-    return (
-        <div className="fixed inset-0 z-[6] flex" ref={preloaderRef}>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
-            <div className="preloader-item h-full w-[10%] bg-[#272525]"></div>
+    const name = 'ROHIT DHOTRE';
 
-            <p className="name-text flex text-[20vw] lg:text-[200px] font-anton text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 leading-none overflow-hidden">
-                <span className="inline-block translate-y-full">R</span>
-                <span className="inline-block translate-y-full">O</span>
-                <span className="inline-block translate-y-full">H</span>
-                <span className="inline-block translate-y-full">I</span>
-                <span className="inline-block translate-y-full">T</span>
-                <span className="inline-block translate-y-full">&nbsp;</span>
-                <span className="inline-block translate-y-full">D</span>
-                <span className="inline-block translate-y-full">H</span>
-                <span className="inline-block translate-y-full">O</span>
-                <span className="inline-block translate-y-full">T</span>
-                <span className="inline-block translate-y-full">R</span>
-                <span className="inline-block translate-y-full">E</span>
+    return (
+        <div
+            className="fixed inset-0 z-[6] flex overflow-hidden"
+            ref={preloaderRef}
+        >
+            {/* Background bars */}
+            {Array.from({ length: 10 }).map((_, i) => (
+                <div
+                    key={i}
+                    className="preloader-bar flex-1 h-full"
+                    style={{
+                        background: `hsl(220 20% ${8 + i * 0.6}%)`,
+                    }}
+                />
+            ))}
+
+            {/* Name */}
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex overflow-hidden leading-none">
+                {name.split('').map((char, i) => (
+                    <span
+                        key={i}
+                        className="preloader-letter inline-block translate-y-full font-anton text-[12vw] lg:text-[140px] text-white/90"
+                    >
+                        {char === ' ' ? '\u00A0' : char}
+                    </span>
+                ))}
             </p>
+
+            {/* Counter */}
+            <div className="preloader-counter absolute bottom-8 right-10 flex items-end gap-1">
+                <span
+                    ref={counterRef}
+                    className="font-anton text-[80px] leading-none text-primary tabular-nums"
+                >
+                    00
+                </span>
+                <span className="font-space-grotesk text-2xl text-muted-foreground mb-3">
+                    %
+                </span>
+            </div>
+
+            {/* Bottom left label */}
+            <div className="absolute bottom-8 left-10 text-muted-foreground text-sm font-space-grotesk tracking-widest uppercase">
+                Loading portfolio
+            </div>
         </div>
     );
 };

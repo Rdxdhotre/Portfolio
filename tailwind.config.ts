@@ -14,6 +14,7 @@ export default {
                 background: {
                     DEFAULT: 'hsl(var(--background))',
                     light: 'hsl(var(--background-light))',
+                    card: 'hsl(var(--background-card))',
                 },
                 foreground: 'hsl(var(--foreground))',
                 card: {
@@ -59,17 +60,22 @@ export default {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',
                 sm: 'calc(var(--radius) - 4px)',
+                '2xl': '1rem',
+                '3xl': '1.5rem',
             },
             fontFamily: {
                 anton: ['var(--font-anton)'],
-                'roboto-flex': ['var(--font-roboto-flex)'],
+                'space-grotesk': ['var(--font-space-grotesk)'],
+                // keep old alias for any existing references
+                'roboto-flex': ['var(--font-space-grotesk)'],
             },
             padding: {
-                section: '250px',
+                section: '200px',
+                'section-sm': '120px',
             },
             container: {
                 center: true,
-                padding: '1rem',
+                padding: '1.25rem',
                 screens: {
                     xl: '1148px',
                     '2xl': '1148px',
@@ -80,6 +86,22 @@ export default {
             },
             screens: {
                 xs: '420px',
+            },
+            boxShadow: {
+                glow: 'var(--glow-primary)',
+                'glow-accent': 'var(--glow-accent)',
+                'glow-sm': '0 0 12px hsl(196 100% 50% / 0.3)',
+            },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+            },
+            animation: {
+                'float': 'float 4s ease-in-out infinite',
+                'shimmer': 'shimmer 2.5s linear infinite',
+                'status-pulse': 'status-pulse 2s ease-out infinite',
+                'gradient-shift': 'gradient-shift 4s linear infinite',
+                'spin-slow': 'spin 7s linear infinite',
             },
         },
     },
